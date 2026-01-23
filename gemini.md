@@ -1,21 +1,25 @@
-# Project Rules
+# Правила проекта
 
-## 1. NEVER restore previous versions without confirmation
-ALWAYS ask before restoring any backup or previous version
+## 1. НИКОГДА не восстанавливать предыдущие версии без подтверждения
+ВСЕГДА спрашивать перед восстановлением любого бэкапа или предыдущей версии.
 
-## 2. Security - NEVER commit credentials
-- config.json contains API key - NEVER commit
-- .env files - NEVER commit
-- ALWAYS check git status before commits
+## 2. Безопасность — НИКОГДА не коммитить учетные данные
+- `config.json` содержит API-ключи — НИКОГДА не коммитить.
+- Файлы `.env` — НИКОГДА не коммитить.
+- ВСЕГДА проверять `git status` перед коммитами.
 
 ## 3. Git workflow
-- Main branch: main
-- ALWAYS create descriptive commit messages
+- Основная ветка: `main`.
+- ВСЕГДА писать информативные сообщения к коммитам.
 
-## 4. Before deleting
-ALWAYS ask before deleting any file
+## 4. Перед удалением
+ВСЕГДА спрашивать перед удалением любого файла.
 
-## 5. Project structure
-- src/ - main code
-- docs/ - documentation
-- See: docs/architecture.md for details
+## 5. Структура проекта
+- `src/` — основной код.
+- `docs/` — документация.
+- Подробности см. в `docs/architecture.md`.
+
+## 6. Язык
+- ВСЕ общение должно вестись на **русском языке**.
+- ВСЕ файлы документации и текстовые файлы должны быть на **русском языке**.
