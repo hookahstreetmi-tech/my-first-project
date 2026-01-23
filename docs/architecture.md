@@ -1,25 +1,25 @@
-# Architecture Documentation
+# Документация по архитектуре
 
-## Overview
-This document describes the architectural decisions, system structure, and technologies used in **My First Project 1**.
+## Обзор
+Этот документ описывает архитектурные решения, структуру системы и технологии, используемые в проекте **My First Project**.
 
-## Tech Stack
-*   **Frontend:** (To be defined - e.g., React, Next.js)
-*   **Backend:** (To be defined - e.g., Node.js, Python)
-*   **Database:** (To be defined)
+## Технологический стек
+*   **Frontend:** (Будет определено - например, React, Next.js)
+*   **Backend:** (Будет определено - например, Node.js, Python)
+*   **База данных:** (Будет определено)
 
-## Project Structure
-按照 `gemini.md` 中的规定:
-*   `src/`: Core application logic and components.
-*   `docs/`: System documentation and guides.
+## Структура проекта
+Согласно правилам в `gemini.md`:
+*   `src/`: Основная логика приложения и компоненты.
+*   `docs/`: Системная документация и руководства.
 
-## Core Modules
-*   **Module A:** Description...
-*   **Module B:** Description...
+## Основные модули
+*   **Модуль А:** Описание...
+*   **Модуль Б:** Описание...
 
-## Data Flow
-(Description of how data moves through the system)
+## Потоки данных
+(Описание того, как данные перемещаются по системе)
 
-## Security
-*   API keys must be stored in `.env` (ignored by Git).
-*   Sensitive configuration in `config.json` (ignored by Git).
+## Безопасность
+*   API-ключи должны храниться в файле `.env` (игнорируется Git).
+*   Конфиденциальные настройки в `config.json` (игнорируется Git).
