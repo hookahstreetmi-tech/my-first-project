@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS topics (
     description TEXT,                     -- Описание что исследовать
     status TEXT DEFAULT 'pending',        -- pending, researching, completed, archived
     priority TEXT DEFAULT 'medium',       -- low, medium, high
+    deep_search BOOLEAN DEFAULT false,    -- Флаг глубокого исследования
+    source_workflow TEXT DEFAULT 'auto',  -- auto, manual
     scheduled_date DATE DEFAULT CURRENT_DATE,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
