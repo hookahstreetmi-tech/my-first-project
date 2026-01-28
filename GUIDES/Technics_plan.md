@@ -1,4 +1,4 @@
-# Техническое руководство по реализации Indus.8M (Final Sync v3.0)
+# Техническое руководство по реализации ivanov.industries (Final Sync v3.0)
 
 Этот документ синхронизирован с протоколом «ВЕЧЕРИНКА» (27.01.2026) и SQL-схемой `SKRIPTS/supabase/pipeline_schema.sql`.
 

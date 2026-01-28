@@ -1,5 +1,5 @@
 -- ===========================================
--- INDUS.8M PIPELINE - DATABASE SCHEMA
+-- ivanov.industries PIPELINE - DATABASE SCHEMA
 -- ===========================================
 -- Версия: 1.0
 -- Дата: 2026-01-27

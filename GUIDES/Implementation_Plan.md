@@ -17,7 +17,7 @@
 - `[ 🗑️ Архив ]` (callback_data: `arch|{{id}}`)
 
 ### Stage 2: Callback Dispatcher - [ВЫПОЛНЕНО]
-Новый воркфлоу `5) Dispatcher (Indus.8M)` (ID: `mBzsfg2gW1iOEQeJ`):
+Новый воркфлоу `5) Dispatcher (ivanov.industries)` (ID: `mBzsfg2gW1iOEQeJ`):
 - Слушает `callback_query`.
 - **Логика `prod`**:
   1. Обновляет статус в `hypotheses` на `validated`.
