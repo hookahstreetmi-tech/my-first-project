@@ -8,7 +8,7 @@
 
 ## 📊 Схема Данных (Supabase)
 1.  **Topics**: `id (UUID)`, `title`, `created_at`.
-2.  **Knowledge**: `id`, `topic_id (FK)`, `text`, `sources (JSON)`. 
+2.  **Knowledge**: `id`, `topic_id (FK)`, `title (NOT NULL)`, `content (NOT NULL)`, `source`, `source_type`. 
 3.  **Hypotheses**: `id`, `topic_id (FK)`, `title`, `description`, `confidence_score`.
 4.  **Tasks**: `id`, `hypothesis_id (FK)`, `title`, `status`, `due_date`.
 
