@@ -85,3 +85,17 @@ The skill itself tells you which.
 ## User Instructions
 
 Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.
+
+## Automatic Context Loading
+
+Upon invocation of this skill (start of conversation), you MUST immediately view the following project context files to align with the user's environment:
+
+1. `gemini.md`
+2. `CORE/STRATEGY.md`
+3. `CORE/TECHNICAL_STACK.md`
+4. `AI_CONTEXT/MASTER_TASKS.md`
+5. `AI_CONTEXT/СHAT_SNAPSHOT.md`
+
+**CRITICAL INSTRUCTION:**
+After reading these files, **DO NOT take any further actions** (like checking n8n, running code, executing tasks).
+You must **STOP**, report to the user that context is loaded, and **WAIT** for their specific instructions.
