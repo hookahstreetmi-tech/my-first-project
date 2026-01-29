@@ -1,75 +1,54 @@
-# Техническое руководство по реализации ivanov.industries (Final Sync v3.0)
+# Техническое руководство по реализации ivanov.industries (Ecosystem Update v4.0)
 
-Этот документ синхронизирован с протоколом «ВЕЧЕРИНКА» (27.01.2026) и SQL-схемой `SKRIPTS/supabase/pipeline_schema.sql`.
+Этот документ синхронизирован с текущим состоянием экосистемы (29.01.2026).
 
-## 1. Архитектура Конвейера (Pipeline)
+## 1. Архитектура Экосистемы (Ecosystem)
 
-Система состоит из 4-х автономных агентов, связанных через Supabase.
+Система эволюционировала из линейной трубы в интеллектуальный хаб с централизованным управлением.
 
-| Стадия | Имя Агента (n8n) | ID Воркфлоу | Функция | Вход | Выход |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **1. Планирование** | **Topic Generator** | `QTYaCNJB6hChBlIA` | Генерирует темы для исследования. | Schedule / Trigger | Запись в `topics` (status: `pending`) |
-| **2. Сбор Знаний** | **Research Team** | `ItU0fZMVllwFxFDQ` | Ищет факты по теме. | `topics` (status: `pending` -> `researching`) | Запись в `knowledge` -> `topics` (`completed`) |
-| **3. Мозг** | **Brain Center** | `ggcoBC7nujBUXwmB` | Генерирует гипотезы на основе знаний. | `topics` (`completed`) | Запись в `hypotheses` |
-| **4. Производство** | **Production Agent** | `n14qDgi3nFiGn9Fm` | Пишет контент/планы. | `hypotheses` (выбор пользователя) | Запись в `content` -> Telegram |
+| Стадия | Агент / Модуль | ID n8n | Функция |
+| :--- | :--- | :--- | :--- |
+| **Stage 1** | **Topic Generator** | `QTYaCNJB6hChBlIA` | Авто-генерация стратегических тем. |
+| **Stage 2** | **Research Team** | `ItU0fZMVllwFxFDQ` | Глубокий ресерч (Perplexity). Передает `topic_id`. |
+| **Stage 3** | **Brain Center** | `ggcoBC7nujBUXwmB` | Стратегический анализ и генерация гипотез. |
+| **Stage 4** | **Dispatcher & Prod** | `n14qDgi3nFiGn9Fm` | **Центральный хаб**: Обработка команд из Telegram. |
+| **Stage 5** | **Telegram Receiver** | `CPtb6ru14iM2YGNUjBg_T` | Ручной ввод тем и управление агентами. |
 
-### Пульт управления "Автопилот"
-Для полной автоматизации используется система Callback-кнопок в Telegram:
-
-1. **Brain Center -> Telegram**: Отправляет гипотезу с Inline-кнопками.
-2. **Telegram -> Production**: При нажатии кнопки `[ ✅ В работу ]` воркфлоу Production получает `hypothesis_id` и начинает генерацию.
+### Магистраль Данных (Data Flow)
+Ключевым связующим звеном является `topic_id` (UUID), который пробрасывается с момента создания темы до финальной публикации контента. Это обеспечивает целостность контекста для всех ИИ-агентов.
 
 ---
 
-### Роль Topic Generator
-`1) Topic Generator` — это точка входа в систему. Он должен быть настроен на `Schedule Trigger` (например, каждое утро), чтобы инициировать новый цикл исследований.
+## 2. Логика Диспетчеризации (The Brain Loop)
 
-## 2. Настройка Базы Данных (Supabase)
+Система управляется через **Inline-кнопки** в Telegram. Диспетчер в Stage 4 маршрутизирует команды:
 
-Схема уже определена в `SKRIPTS/supabase/pipeline_schema.sql`.
-Основные таблицы:
-*   `topics` (вместо `projects`)
-*   `knowledge` (вместо `research_logs`)
-*   `hypotheses`
-*   `content` (вместо `artifacts`)
-*   `projects` (глобальные настройки)
+1.  **cmd:study** -> Отправляет промежуточное меню «Изучить».
+    *   `study:full` -> Генерация HTML-лонгрида для Gmail.
+    *   `study:short` -> Короткая выжимка в Telegram.
+    *   `study:extra` -> Запуск повторного Deep Research.
+2.  **cmd:smm** -> Передача гипотезы SMM-агенту для создания постов.
+3.  **cmd:biz** -> Передача гипотезы Бизнес-ассистенту для нарезки задач (Google Calendar).
 
-## 3. Инструкция по настройке Воркфлоу
+---
 
-### Агент 1: Topic Generator
-*   **Задача:** Создать запись в таблице `topics`.
-*   **Node: Supabase Insert**
-    *   Table: `topics`
-    *   Columns: `parent_topic`, `subtopic`, `status`='pending'.
+## 3. Настройка Базы Данных (Supabase)
 
-### Агент 2: Research Team
-*   **Задача:** Взять тему в работу и сохранить факты.
-*   **Trigger:** Database Trigger (on insert to `topics`) или Schedule (Polling `status`='pending').
-*   **Logic:**
-    1.  Update `topics.status` -> `researching`.
-    2.  Perplexity Search -> Loop -> Save to `knowledge`.
-    3.  Update `topics.status` -> `completed`.
+Схема дополнена для поддержки расширенной логики:
+*   `topics`: Темы (id, parent_topic, subtopic, status).
+*   `knowledge`: Факты (id, topic_id, text, sources).
+*   `hypotheses`: Идеи (id, topic_id, statement, confidence).
+*   `content`: Готовые материалы (id, hypothesis_id, html_body).
+*   `tasks`: Задачи (id, hypothesis_id, title, due_date, status).
 
-### Агент 3: Brain Center
-*   **Задача:** Превратить факты в идеи.
-*   **Trigger:** Database Trigger (on update `topics.status`='completed').
-*   **Logic:**
-    1.  Get `knowledge` by `topic_id`.
-    2.  LLM Generate Hypotheses.
-    3.  Save to `hypotheses`.
+---
 
-### Агент 4: Production Agent
-*   **Задача:** Создать контент.
-*   **Trigger:** Telegram Callback (User selects Hypothesis).
-*   **Logic:**
-    1.  Get `hypotheses` details.
-    2.  LLM Generate Content.
-    3.  Save to `content`.
-    4.  Send to Telegram.
+## 4. Стандарт качества контента
 
-## 4. План запуска (из Snaphot)
-1.  **Валидация БД:** Убедиться, что скрипт `SKRIPTS/supabase/pipeline_schema.sql` выполнен.
-2.  **Первый прогон:**
-    *   Вручную создать тему в `topics`.
-    *   Проверить, подхватит ли её Research Team.
-3.  **Тюнинг:** Настройка промптов Brain Center (см. пункт 4 плана "на завтра").
+Любое исходящее сообщение или письмо должно соответствовать **Шкале Элегантности (Zero-G)**:
+*   **Gmail**: Премиальный HTML, наличие Citations, четкая структура.
+*   **Telegram**: Мгновенная реакция ("Сэр, я уже в процессе..."), лаконичность.
+
+---
+
+*Документ зафиксирован 29.01.2026. Архитектура признана стабильной и готовой к масштабированию.*
