@@ -1,8 +1,10 @@
-if (Test-Path "VICTORY.txt") {
-    $msg = "VICTORY: File exists! Terminal is working behind the scenes.`r`n"
-    $msg += "Content: " + (Get-Content "VICTORY.txt")
-} else {
-    $msg = "ERROR: File not found. Command was not executed.`r`n"
-}
+$report = "--- POST-REBOOT CHECK ---`r`n"
+$report += "Current Directory: " + (Get-Location).Path + "`r`n"
+$report += "Files in root:`r`n"
+(Get-ChildItem).Name | ForEach-Object { $report += "- $_`r`n" }
 
-Set-Content -Path "output.txt" -Value $msg -Encoding Ascii
+# Проверка, видит ли терминал теперь команду 'claude' или аналоги
+$report += "`r`nCommand Check:`r`n"
+$report += "Search for 'antigravity': " + (Get-Command *antigravity* -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source) + "`r`n"
+
+Set-Content -Path "output.txt" -Value $report -Encoding Ascii

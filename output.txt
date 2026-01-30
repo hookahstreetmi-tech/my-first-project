@@ -1,2 +1,15 @@
-ERROR: File not found. Command was not executed.
+--- POST-REBOOT CHECK ---
+Current Directory: C:\Users\user\github_antigravity\my-first-project
+Files in root:
+- .agent
+- AI_CONTEXT
+- CORE
+- SKRIPTS
+- TABLES
+- execute_me.ps1
+- gemini.md
+- output.txt
+
+Command Check:
+Search for 'antigravity': D:\progs\Antigravity\Antigravity.exe
 
