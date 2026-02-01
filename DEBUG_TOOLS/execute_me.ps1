@@ -1,22 +1,7 @@
-$rootFiles = @("execute_me.ps1", "output.txt", "VICTORY.txt")
-$targetFolder = "DEBUG_TOOLS"
-
-if (-not (Test-Path $targetFolder)) {
-    New-Item -ItemType Directory -Path $targetFolder | Out-Null
+if (Test-Path "DOCUMENTS") {
+    Rename-Item -Path "DOCUMENTS" -NewName "PROJECTS" -Force
+    Write-Host "Renamed 'DOCUMENTS' to 'PROJECTS' successfully."
 }
-
-foreach ($file in $rootFiles) {
-    if (Test-Path $file) {
-        if ($file -eq "VICTORY.txt") {
-            Remove-Item $file -Force
-            $log = "Deleted: $file"
-        }
-        else {
-            Move-Item $file -Destination "$targetFolder\$file" -Force
-            $log = "Moved: $file to $targetFolder"
-        }
-        Write-Host $log
-    }
+else {
+    Write-Host "Directory 'DOCUMENTS' not found. Maybe it was already renamed?"
 }
-
-"--- CLEANUP COMPLETE ---" | Out-File -FilePath "$targetFolder\output.txt" -Encoding Ascii
