@@ -26,7 +26,8 @@ RULES:
 1. ALWAYS convert relative dates (tomorrow, wednesday, etc.) to Russian format DD.MM.YYYY using Current Date (2026-02-03) as reference.
 (Example: tomorrow = 04.02.2026)
 2. Mandatory fields: 'address' and 'date'. If missing, return status: "error".
-3. Time: morning=09:00, afternoon=14:00, evening=18:00.
+3. **NO_DATA GUARD**: If input is purely a greeting or lacks order details (address/time/price), strictly return ONLY the text: `NO_DATA`.
+4. Time: morning=09:00, afternoon=14:00, evening=18:00.
 
 SCHEMA (Flat structure - DO NOT use 'data' wrapper):
 {
