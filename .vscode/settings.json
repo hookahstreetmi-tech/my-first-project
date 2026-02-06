@@ -1,6 +1,4 @@
 {
-    "terminal.integrated.defaultProfile.windows": "Git Bash",
-    "files.associations": {
-        "*.sh": "shellscript"
-    }
+    "update.mode": "none",
+    "extensions.autoUpdate": false
 }
